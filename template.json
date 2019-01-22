@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "index_patterns": ["slack*"],
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0,
+    "analysis": {
+      "normalizer": {
+        "case_insensitive_upper": {
+          "type": "custom",
+          "char_filter": [],
+          "filter": ["uppercase"]
+        }
+      }
+    }
+  },
+  "mappings": {
+      "slack": {
+          "dynamic_templates": [
+            {
+                "default": {
+                    "match": "*",
+                    "match_mapping_type": "string",
+                    "mapping": {
+                        "type": "text",
+                        "fields": {
+                            "keyword": {
+                                "type": "keyword"
+                            }
+                        }
+                    }
+                }
+            }
+          ],
+          "properties": {
+              "name": {
+                  "type": "keyword"
+              },
+              "users": {
+                  "type": "keyword"
+              },
+              "channel": {
+                  "type": "keyword"
+              },
+              "username": {
+                  "type": "keyword"
+              },
+              "bot_id": {
+                  "type": "keyword"
+              },
+              "channel_id": {
+                  "type": "keyword"
+              },
+              "type": {
+                  "type": "keyword"
+              },
+              "subtype": {
+                  "type": "keyword"
+              },
+              "text": {
+                  "type": "text"
+              },
+              "ts": {
+                  "type": "date",
+                  "format": "epoch_millis"
+              }
+          }
+      }
+  }
+}
