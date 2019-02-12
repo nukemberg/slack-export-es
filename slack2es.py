@@ -28,12 +28,12 @@ def index(es, channel, folder, filename):
         ts = float(message['ts'])*1000
         message['ts'] = int(ts)
         
-        for reaction in [{**reaction, 'type': 'reaction', 'channel': channel, 'ts': message['ts'], 'msg_text': message['text'], 'msg_user': message.get('username')} for reaction in reactions]:
+        for reaction in [{**reaction, 'id': '-'.join(['reaction', channel, message['ts'], reaction['name']]),  'type': 'reaction', 'channel': channel, 'ts': message['ts'], 'msg_text': message['text'], 'msg_user': message.get('username')} for reaction in reactions]:
             es.index(index='slack', doc_type='slack', 
                     body=reaction)      
 
         es.index(index='slack', doc_type='slack', 
-            body={**message, 'type': 'message', 'channel': channel}
+            body={**message, 'type': 'message', 'channel': channel, 'id': '-'.join(['message', channel, message['ts']])}
             )
 
     print('Done indexing {}'.format(filename))
