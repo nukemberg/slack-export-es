@@ -22,7 +22,10 @@ def slack2es(es_url, folder):
 
 def fix_ts(message):
     ts = float(message['ts'])*1000
-    return {**message, 'ts': int(ts)}
+    msg = {**message, 'ts': int(ts)}
+    if 'thread_ts' in message:
+        msg['thread_ts'] = int(float(message['thread_ts'])*1000)
+    return msg
 
 
 def to_reaction_doc(channel, reaction, message):

@@ -48,7 +48,7 @@
             },
             {
                 "_ts": {
-                    "match": "_ts",
+                    "match": "*_ts",
                     "mapping": {
                         "type": "date",
                         "format": "epoch_millis"                         
