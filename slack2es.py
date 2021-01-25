@@ -51,8 +51,8 @@ def index(es, channel, folder, filename):
 
     messages = [fix_ts(msg) for msg in data]
     reactions = itertools.chain.from_iterable([to_reaction_doc(channel, reaction, message) for reaction in message.get('reactions', [])] for message in messages)
-    bulk(es, ({'_index': 'slack', '_type': 'slack', '_source': reaction, '_id': reaction_id(channel, reaction)} for reaction in reactions))
-    bulk(es, ({'_index': 'slack', '_type': 'slack', '_source': to_message_doc(channel, message), '_id': message_id(channel, message)} for message in messages))
+    bulk(es, ({'_index': 'slack', '_source': reaction, '_id': reaction_id(channel, reaction)} for reaction in reactions))
+    bulk(es, ({'_index': 'slack', '_source': to_message_doc(channel, message), '_id': message_id(channel, message)} for message in messages))
     print('Done indexing {}'.format(filename))
 
 
